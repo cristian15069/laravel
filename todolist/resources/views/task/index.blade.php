@@ -35,17 +35,50 @@
                             class="form-control"
                             name="task"
                             id="task"
-                            placeholder="Write task" />
+                            placeholder="Write task" 
+                            required
+                            />
                     </div>
                 </div>
 
                 <div class="mb-3 row">
                     <div class="offset-sm-4 col-sm-8">
                         <input type="submit" class="btn btn-primary" value="Add task">
-                            
                     </div>
                 </div>
             </form>
+            <div
+                class="table-responsive-sm">
+                <table
+                    class="table table-striped table-hover table-borderless table-primary align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Task</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        @foreach($tasks as $task)
+                        <tr class="table-primary">
+                            <td>{{$task -> task}}</td>
+                            <td>
+                                <form action="{{ route('task.destroy' , $task->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="submit" value="Delete task" class="btn btn-danger">
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+
+
+            <form action="" method="post"></form>
         </div>
 
     </main>

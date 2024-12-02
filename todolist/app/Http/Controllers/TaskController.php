@@ -12,7 +12,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return view('task.index');
+        $task['tasks']= Task::all();
+        return view('task.index',$task);
     }
 
     /**
@@ -30,7 +31,7 @@ class TaskController extends Controller
     {
         $task= $request->all();
         Task::create($task);
-        print_r($_POST);
+        return redirect('/');
     }
 
     /**
@@ -60,8 +61,10 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(task $task)
+    public function destroy($id)
     {
-        //
+       $task = Task::findOrFail($id);
+       $task->delete();
+       return redirect('/');
     }
 }
