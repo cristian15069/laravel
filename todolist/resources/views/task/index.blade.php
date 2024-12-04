@@ -22,31 +22,22 @@
         <!-- place navbar here -->
     </header>
     <main>
-        <div class="container">
-            <form action="{{ url('/') }}" method="post">
+        <div class="container ">
+            <form action="{{ url('/') }}" method="post" class="form">
                 @csrf
-                <div class="mb-3 row">
+                <div class="mb-3 ">
                     <label
                         for="Task"
                         class="col-4 col-form-label">Task </label>
-                    <div class="col-8">
-                        <input
-                            type="text"
-                            class="form-control"
-                            name="task"
-                            id="task"
-                            placeholder="Write task" 
-                            required
-                            />
-                    </div>
-                </div>
 
-                <div class="mb-3 row">
-                    <div class="offset-sm-4 col-sm-8">
-                        <input type="submit" class="btn btn-primary" value="Add task">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Add a task" aria-label="Add a task" name="task" aria-describedby="basic-addon2" required>
+                        <input type="submit" class="input-group-text btn btn-success" id="basic-addon2" value="Add">
                     </div>
                 </div>
             </form>
+
+
             <div
                 class="table-responsive-sm">
                 <table
@@ -54,20 +45,48 @@
                     <thead class="table-light">
                         <tr>
                             <th>Task</th>
+                            <th> </th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         @foreach($tasks as $task)
                         <tr class="table-primary">
+                            @if(session('editTaskId') == $task->id)
+                            <td>
+                                <form action="{{ route('task.update', $task->id) }}" method="post">
+                                    @csrf
+                                    @method('PUT')
+
+                                    <div class="input-group mb-1 ">
+                                        <input type="text" class="form-control" aria-describedby="basic-addon2" value="{{$task->task}}" name="taskUpdate">
+
+                                        <input type="submit" value="Update" class="input-group-text btn btn-warning" id="basic-addon2">
+                                    </div>
+                                    <td></td>
+                                </form>
+                            </td>
+                            @else
                             <td>{{$task -> task}}</td>
+
+                            <td>
+                                <form action="{{ route('task.edit', $task->id) }}" method="get">
+                                    @csrf
+                                    <input type="submit" value="Edit task" class="btn btn-secondary">
+                                </form>
+                            </td>
+                            @endif
+
+
+
                             <td>
                                 <form action="{{ route('task.destroy' , $task->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <input type="submit" value="Delete task" class="btn btn-danger">
+                                    <input type="submit" value="Delete" class="btn btn-danger">
                                 </form>
                             </td>
+
                         </tr>
                         @endforeach
                     </tbody>
@@ -78,7 +97,6 @@
             </div>
 
 
-            <form action="" method="post"></form>
         </div>
 
     </main>

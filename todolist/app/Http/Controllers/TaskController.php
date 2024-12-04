@@ -45,17 +45,24 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(task $task)
+    public function edit($id)
     {
         //
+        session(['editTaskId' => $id]);
+        return redirect('/');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, task $task)
+    public function update(Request $request, $id)
     {
         //
+        $task = Task::findOrFail($id);
+        $task->Task = $request->input('taskUpdate');
+        $task->save();
+        session()->forget('editTaskId');
+        return redirect ('/')-> with('success' , 'Task update successfully');
     }
 
     /**
