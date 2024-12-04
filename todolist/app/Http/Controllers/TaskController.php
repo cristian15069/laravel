@@ -31,7 +31,7 @@ class TaskController extends Controller
     {
         $task= $request->all();
         Task::create($task);
-        return redirect('/');
+        return redirect('/')->with('success', 'Task add successfully');
     }
 
     /**
@@ -72,6 +72,6 @@ class TaskController extends Controller
     {
        $task = Task::findOrFail($id);
        $task->delete();
-       return redirect('/');
+       return redirect('/')->with('danger', 'Task delete successfully');
     }
 }

@@ -23,6 +23,15 @@
     </header>
     <main>
         <div class="container ">
+            @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @elseif(session('danger'))
+            <div class="alert alert-danger">
+                {{ session('danger') }}
+            </div>
+            @endif
             <form action="{{ url('/') }}" method="post" class="form">
                 @csrf
                 <div class="mb-3 ">
@@ -63,8 +72,8 @@
 
                                         <input type="submit" value="Update" class="input-group-text btn btn-warning" id="basic-addon2">
                                     </div>
-                                    <td></td>
-                                </form>
+                            <td></td>
+                            </form>
                             </td>
                             @else
                             <td>{{$task -> task}}</td>
