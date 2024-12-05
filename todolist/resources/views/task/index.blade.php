@@ -22,7 +22,8 @@
         <!-- place navbar here -->
     </header>
     <main>
-        <div class="container ">
+        <div class="container">
+            <br></br>
             @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
