@@ -32,7 +32,7 @@ class TaskController extends Controller
         //
         $task = $request->all();
         Task::create($task);
-
+        return redirect('/')->with('success', 'Task add successfully');
     }
 
     /**
@@ -46,24 +46,34 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit($id)
     {
         //
+        session( ['editTaskId' => $id] );
+        return redirect('/');
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
         //
+        $task = Task::findOrFail ($id);
+        $task->task = $request->input('taskUpdate');
+        $task->save();
+        session()->forget('editTaskId');
+        return redirect('/')->with('success', 'Task update successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
-        //
+        $task = Task::findOrFail($id);
+        $task->delete();
+        return redirect('/')->with('danger', 'Task delete successfully');
     }
 }
